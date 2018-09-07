@@ -1,2 +1,3 @@
 class CountFromBy:
- pass
+ def increase(self) -> None:
+  self.val += self.incr
