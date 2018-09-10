@@ -1,6 +1,8 @@
-from flask import Flask
+from flask import Flask, session
 
 app = Flask(__name__)
+
+app.secret_key = 'YouWillNeverGuessMySecretKey'
 
 @app.route('/')
 def hello() -> str:
@@ -17,6 +19,11 @@ def page2() -> str:
 @app.route('/page3')
 def page3() -> str:
  return 'This is page 3.'
+
+@app.route('/login')
+def do_login() -> str:
+ session['logged_in'] = True
+ return 'You are now logged in'
 
 if __name__ == '__main__':
  app.run(debug=True)
