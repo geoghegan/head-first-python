@@ -25,5 +25,10 @@ def do_login() -> str:
  session['logged_in'] = True
  return 'You are now logged in'
 
+@app.route('/logout')
+def do_logout() -> str:
+ session.pop('logged_in')
+ return 'You are now logged out'
+
 if __name__ == '__main__':
  app.run(debug=True)
