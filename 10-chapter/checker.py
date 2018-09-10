@@ -1,6 +1,6 @@
 def checked_logged_in(func):
- def wrapper():
+ def wrapper(*args, **kwargs):
   if 'logged_in' in session:
-   return func()
+   return func(*args, **kwargs)
   return 'You are *NOT* logged in'
 return wrapper
