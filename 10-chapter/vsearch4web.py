@@ -1,6 +1,7 @@
-from flask import Flask, render_template, request, redirect, escape
+from flask import Flask, render_template, request, redirect, escape, session
 from vsearch import search4letters
 from DBcm import UseDatabase
+from checker import check_logged_in
 
 app = Flask(__name__)
 
@@ -8,6 +9,8 @@ app.config['dbconfig'] = { 'host': '127.0.0.1',
                          'user': 'vsearch',
                          'password': 'password',
                          'database': 'vsearchlogDB', }
+
+app.secret_key = 'YouWillNeverGuessMySecretKey'
 
 def log_request(req: 'flask_request', res: str) -> None:
  """Log details of the web request and the results."""
@@ -41,6 +44,7 @@ def entry_page() -> 'html':
   the_title='Welcome to search4letters on the web!')
 
 @app.route('/viewlog')
+@check_logged_in
 def view_the_log() -> 'html':
  with UseDatabase(app.config['dbconfig']) as cursor:
   _SQL = """select phrase, letters, ip, browser_string, results from log"""
@@ -52,5 +56,20 @@ def view_the_log() -> 'html':
   return render_template ('viewlog.html', the_title='ViewLog',
    the_row_titles=titles, the_data=contents, )
 
+@app.route('/login')
+def do_login() -> str:
+ session['logged_in'] = True
+ return 'You are now logged in'
+
+@app.route('/logout')
+def do_logout() -> str:
+ session.pop('logged_in')
+ return 'You are now logged out'
+
+@app.route('/status')
+def do_status() -> str:
+ if 'logged_in' in session:
+  return 'You are currently logged in.'
+ return 'You are NOT logged in'
 if __name__ == '__main__':
  app.run(debug=True)
