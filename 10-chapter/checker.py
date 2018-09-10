@@ -1,3 +1,5 @@
+from flask import session
+
 def checked_logged_in(func):
  def wrapper(*args, **kwargs):
   if 'logged_in' in session:
