@@ -1,5 +1,4 @@
 from flask import Flask, session
-
 from checker import check_logged_in
 
 app = Flask(__name__)
