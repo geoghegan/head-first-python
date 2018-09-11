@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, redirect, escape, session
 from vsearch import search4letters
 from DBcm import UseDatabase, ConnectionError, CredentialsError
 from checker import check_logged_in
+from time import sleep
 
 app = Flask(__name__)
 
@@ -14,7 +15,7 @@ app.secret_key = 'YouWillNeverGuessMySecretKey'
 
 def log_request(req: 'flask_request', res: str) -> None:
  """Log details of the web request and the results."""
-
+ sleep(15)
  with UseDatabase(app.config['dbconfig']) as cursor:
   _SQL = """insert into log
    (phrase, letters, ip, browser_string, results)
