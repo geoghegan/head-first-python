@@ -16,7 +16,7 @@ app.secret_key = 'YouWillNeverGuessMySecretKey'
 def log_request(req: 'flask_request', res: str) -> None:
  """Log details of the web request and the results."""
 
- sleep(15)
+ raise
  with UseDatabase(app.config['dbconfig']) as cursor:
   _SQL = """insert into log
    (phrase, letters, ip, browser_string, results)
