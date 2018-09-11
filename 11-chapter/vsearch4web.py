@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect, escape, session
 from vsearch import search4letters
-from DBcm import UseDatabase, ConnectionError
+from DBcm import UseDatabase, ConnectionError, CredentialsError
 from checker import check_logged_in
 
 app = Flask(__name__)
@@ -63,9 +63,12 @@ def view_the_log() -> 'html':
  except ConnectionError as err:
   print('Is your database switched on? Error:', str(err))
 
+ except CredentialsError as err:
+  print('User-id/Password issues. Error:', str(err))
+
  except Exception as err:
   print('Something went wrong:', str(err))
-  return 'Error'
+ return 'Error'
 
 
 @app.route('/login')
