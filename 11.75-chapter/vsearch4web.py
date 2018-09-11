@@ -3,6 +3,7 @@ from vsearch import search4letters
 from DBcm import UseDatabase, ConnectionError, CredentialsError
 from checker import check_logged_in
 from time import sleep
+from threading import Thread
 
 app = Flask(__name__)
 
@@ -35,7 +36,8 @@ def do_search() -> 'html':
  title = 'Here are your results: '
  results = str(search4letters(phrase, letters))
  try:
-  log_request(request, results)
+  t = Thread(target=log_request, args=(request, results))
+  t.start()
  except Exception as err:
   print('***** Logging failed with this error:', str(err))
  return render_template('results.html', the_phrase=phrase,
