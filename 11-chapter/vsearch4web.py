@@ -49,15 +49,19 @@ def entry_page() -> 'html':
 @app.route('/viewlog')
 @check_logged_in
 def view_the_log() -> 'html':
- with UseDatabase(app.config['dbconfig']) as cursor:
-  _SQL = """select phrase, letters, ip, browser_string, results from log"""
-  cursor.execute(_SQL)
-  contents = cursor.fetchall()
+ try:
+  with UseDatabase(app.config['dbconfig']) as cursor:
+   _SQL = """select phrase, letters, ip, browser_string, results from log"""
+   cursor.execute(_SQL)
+   contents = cursor.fetchall()
 
-  titles = ('Phrase', 'Letters', 'Remote_addr', 'User_agent', 'Results')
+   titles = ('Phrase', 'Letters', 'Remote_addr', 'User_agent', 'Results')
 
-  return render_template ('viewlog.html', the_title='ViewLog',
-   the_row_titles=titles, the_data=contents, )
+   return render_template ('viewlog.html', the_title='ViewLog',
+    the_row_titles=titles, the_data=contents, )
+
+ except Exception as err:
+  print('Something went wrong:', str(err))
 
 @app.route('/login')
 def do_login() -> str:
