@@ -1,6 +1,6 @@
 import mysql.connector
 
-class ConnectionError(Exception)
+class ConnectionError(Exception):
  pass
 
 class UseDatabase:
