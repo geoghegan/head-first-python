@@ -23,7 +23,7 @@ class UseDatabase:
 
   except mysql.connector.errors.InterfaceError as err:
    raise ConnectionError(err)
-  except mysql.connector.error.ProgrammingError as err:
+  except mysql.connector.errors.ProgrammingError as err:
    raise CredentialsError(err)
 
  def __exit__(self, exc_type, exc_value, exc_trace) -> None:
